@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-// Verion 1.2
+// Verion 1.3
 
 struct ContentView: View {
     @State private var message = ""
     @State private var imageName = ""
-    @State private var imageNumber = 0
-    @State private var messageNumber = 0
+  
+    @State private var lastMessageNumber = -1
+    @State private var lastImageNumber = -1
     
     var body: some View {
         
@@ -26,7 +27,7 @@ struct ContentView: View {
                 .minimumScaleFactor(0.5)
                 .frame(height: 100)
                 .animation(.easeInOut(duration: 0.15), value: message)
-               
+            
             
             Image(imageName)
                 .resizable()
@@ -44,8 +45,22 @@ struct ContentView: View {
                                 "You Are Fantastic!",
                                 "Fabulous? That!s You!"]
                 
-                message = messages[Int.random(in: 0..<messages.count)]
-                imageName = "image\(Int.random(in: 0..<9))"
+                var messageNumber: Int
+                repeat {
+                    messageNumber = Int.random(in: 0..<messages.count)
+                } while messageNumber == lastMessageNumber
+                   
+                message = messages[messageNumber]
+                lastMessageNumber = messageNumber
+                
+                
+                var imageNumber = Int.random(in: 0...9)
+                while imageNumber == lastImageNumber {
+                    imageNumber = Int.random(in: 0..<9)
+                }
+                imageName = "image\(imageNumber)"
+                lastImageNumber = imageNumber
+                
             }
             .buttonStyle(.borderedProminent)
             .font(.title2)
