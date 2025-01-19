@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Verion 1.1
+// Verion 1.2
 
 struct ContentView: View {
     @State private var message = ""
@@ -18,45 +18,34 @@ struct ContentView: View {
     var body: some View {
         
         VStack {
-            
-            Spacer()
+            Text(message)
+                .font(.largeTitle)
+                .fontWeight(.heavy)
+                .foregroundStyle(.red)
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.5)
+                .frame(height: 100)
+                .animation(.easeInOut(duration: 0.15), value: message)
+               
             
             Image(imageName)
                 .resizable()
                 .scaledToFit()
                 .clipShape(RoundedRectangle(cornerRadius: 30))
                 .shadow(radius: 30)
-            
-            Text(message)
-                .font(.largeTitle)
-                .fontWeight(.heavy)
-                .foregroundStyle(.red)
-                .multilineTextAlignment(.center)
-            
+                .animation(.default, value: imageName)
             
             Spacer()
             
             Button("Show Message") {
-                
                 let messages = ["You Are Awesome!",
+                                "When the Genius Bar Needs Help, Yhey Call You!",
                                 "You Are Great!",
                                 "You Are Fantastic!",
-                                "Fabulous? That!s You!",
-                                "When the Genius Bar Needs Help, Yhey Call You!"]
+                                "Fabulous? That!s You!"]
                 
-                message = messages[messageNumber]
-                messageNumber += 1
-                if messageNumber > messages.count - 1 {
-                    messageNumber = 0
-                }
-                
-                
-                imageName = "image\(imageNumber)"
-                imageNumber += 1
-                if imageNumber > 9 {
-                    imageNumber = 0
-                }
-    
+                message = messages[Int.random(in: 0..<messages.count)]
+                imageName = "image\(Int.random(in: 0..<9))"
             }
             .buttonStyle(.borderedProminent)
             .font(.title2)
